@@ -1,3 +1,7 @@
+<img src="./public/imagens/logo.svg" alt="logo do projeto" />
+
 # search-emoji
 
-This is a project about emojis, I want to learn more about Reactjs with Typescript and StyleComponents, so I decided to create this project as a challenge that helps me to improve in these technologies.
+Search emoji e um projeto desenvolvido utilizando Reactjs, Typescript e styled-components visando melhorar
+Minhas skills nessas tecnologias.
+
