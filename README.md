@@ -1,4 +1,4 @@
-<img src="./public/imagens/logo.svg" alt="logo do projeto"  width="100px" height="100px" align="center"/>
+<span align="center"><img src="./public/imagens/logo.svg" alt="logo do projeto"  width="100px" height="100px"/></span>
 
 <h1 align="center">search-emoji</h1>
 
