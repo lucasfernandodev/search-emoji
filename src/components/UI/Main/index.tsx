@@ -5,6 +5,7 @@ import iconSearch from '/public/imagens/search.svg';
 
 import emojiJson from '../../../store/emoji.json';
 import EmojiGroup from '../EmojiGroup';
+import filterEmojisByGroup from '../../lib/filterEmojisByGroup';
 
 interface interfaceEmojis {
   codes: string;
@@ -16,23 +17,21 @@ interface interfaceEmojis {
 }
 
 const Main: React.FC = () => {
-  function isEmojiCategory(item: interfaceEmojis, filter: string) {
-    return item.group === filter ? item : null;
-  }
+  // function isEmojiCategory(item: interfaceEmojis, filter: string) {
+  //   return item.group === filter ? item : null;
+  // }
 
-  const emojiFilterSmileys = emojiJson.filter(event =>
-    isEmojiCategory(event, 'Smileys & Emotion'),
-  );
+  const emojiFilterSmileys = filterEmojisByGroup(emojiJson, 'Smileys & Emotion');
 
-  const emojiFilterAnimals = emojiJson.filter(event =>
-    isEmojiCategory(event, 'Animals & Nature'),
-  );
+  // const emojiFilterAnimals = emojiJson.filter(event =>
+  //   isEmojiCategory(event, 'Animals & Nature'),
+  // );
 
-  console.log(emojiFilterSmileys);
+  // console.log(emojiFilterSmileys);
 
-  function copyEmojiToClipboard(emojy: string) {
-    return navigator.clipboard.writeText(emojy);
-  }
+  // function copyEmojiToClipboard(emojy: string) {
+  //   return navigator.clipboard.writeText(emojy);
+  // }
 
   return (
     <Container>
