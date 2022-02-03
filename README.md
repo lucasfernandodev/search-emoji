@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./public/imagens/logo.png" alt="logo do projeto"  width="100px" height="100px"/>
+  <img src="./public/imagens/logo.png" alt="logo do projeto"  width="270px" height="100px"/>
 </p>
 
 <h1 align="center">search-emoji</h1>
