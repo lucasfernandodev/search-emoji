@@ -66,7 +66,7 @@ const Main: React.FC = () => {
       {emojisList.map((item, index) => {
         if (index <= pageCurrent) {
           const emojis = filterEmojisByGroup(emojiJson, item);
-          return <EmojiGroup key={index} emojis={emojis} title={item} />;
+          return <EmojiGroup index={index === 0 && true} key={index} emojis={emojis} title={item} />;
         }
       })}
 
