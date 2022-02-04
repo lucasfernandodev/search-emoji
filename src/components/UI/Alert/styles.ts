@@ -17,7 +17,8 @@ export const Container = styled.div`
 
   font-size: 16px;
   font-weight: bold;
-  animation: show 500ms linear forwards;
+  animation: show 350ms linear forwards;
+  z-index: 1000;
 
   @keyframes show {
     0%{
