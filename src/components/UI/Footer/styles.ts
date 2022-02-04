@@ -20,6 +20,7 @@ export const Container = styled.footer`
 
     &:hover{
       color: #141414;
+      text-decoration: underline;
     }
   }
 

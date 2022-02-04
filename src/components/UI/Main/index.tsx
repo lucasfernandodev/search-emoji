@@ -17,9 +17,6 @@ interface interfaceEmojis {
 }
 
 const Main: React.FC = () => {
-  // function isEmojiCategory(item: interfaceEmojis, filter: string) {
-  //   return item.group === filter ? item : null;
-  // }
 
   const [pageCurrent, setPageCurrent] = useState(0);
   const emojisList = [
@@ -32,39 +29,23 @@ const Main: React.FC = () => {
     'Flags',
   ];
 
-  // const emojiFilterAnimals = emojiJson.filter(event =>
-  //   isEmojiCategory(event, 'Animals & Nature'),
-  // );
-
-  // console.log(emojiFilterSmileys);
-
-  // function copyEmojiToClipboard(emojy: string) {
-  //   return navigator.clipboard.writeText(emojy);
-  // }
-  function alert() {
-    console.log('chegou ao fim');
-  }
-
   const lastRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    console.log('log useEffect, pageCurrent: ', pageCurrent)
+    console.log('log useEffect, pageCurrent: ', pageCurrent);
     const observer = new IntersectionObserver(entries => {
       if (entries.some(entry => entry.isIntersecting)) {
-        if(pageCurrent <= emojisList.length){
+        if (pageCurrent <= emojisList.length) {
           setPageCurrent(pageCurrent + 1);
-          alert();
         }
       }
     });
 
-    if(null !== lastRef.current){
+    if (null !== lastRef.current) {
       observer.observe(lastRef.current);
       return () => observer.disconnect();
     }
-    
   }, [pageCurrent]);
-
 
   return (
     <Container>
@@ -81,20 +62,15 @@ const Main: React.FC = () => {
           </form>
         </Wrapper>
       </Welcome>
+
       {emojisList.map((item, index) => {
         if (index <= pageCurrent) {
-          console.log(index);
-          return (
-            <EmojiGroup
-              key={index}
-              emojis={filterEmojisByGroup(emojiJson, item)}
-              title={item}
-            />
-          );
+          const emojis = filterEmojisByGroup(emojiJson, item);
+          return <EmojiGroup key={index} emojis={emojis} title={item} />;
         }
       })}
 
-      <div ref={lastRef} />
+      <section ref={lastRef} />
     </Container>
   );
 };

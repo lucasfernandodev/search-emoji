@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Container } from './styles';
+import copyEmoji from '../../lib/copyEmoji';
 
 interface interfaceEmojiGroup {
   codes: string;
@@ -28,7 +29,7 @@ const EmojiGroup: React.FC<typeEmojiGroup> = ({ emojis, title }) => {
         {emojis.map((item, index) => {
           if (index < 24) {
             return (
-              <div key={index} className="emoji">
+              <div key={index} className="emoji" onClick={() => copyEmoji(item.char)}>
                 {item.char}
               </div>
             );
