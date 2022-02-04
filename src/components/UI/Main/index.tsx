@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { Container, Welcome, Wrapper } from './styles';
 import iconSearch from '/public/imagens/search.svg';
@@ -21,7 +21,16 @@ const Main: React.FC = () => {
   //   return item.group === filter ? item : null;
   // }
 
-  const emojiFilterSmileys = filterEmojisByGroup(emojiJson, 'Smileys & Emotion');
+  const [pageCurrent, setPageCurrent] = useState(0);
+  const emojisList = [
+    'Smileys & Emotion',
+    'Animals & Nature',
+    'People & Body',
+    'Food & Drink',
+    'Travel & Places',
+    'Symbols',
+    'Flags',
+  ];
 
   // const emojiFilterAnimals = emojiJson.filter(event =>
   //   isEmojiCategory(event, 'Animals & Nature'),
@@ -32,6 +41,30 @@ const Main: React.FC = () => {
   // function copyEmojiToClipboard(emojy: string) {
   //   return navigator.clipboard.writeText(emojy);
   // }
+  function alert() {
+    console.log('chegou ao fim');
+  }
+
+  const lastRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    console.log('log useEffect, pageCurrent: ', pageCurrent)
+    const observer = new IntersectionObserver(entries => {
+      if (entries.some(entry => entry.isIntersecting)) {
+        if(pageCurrent <= emojisList.length){
+          setPageCurrent(pageCurrent + 1);
+          alert();
+        }
+      }
+    });
+
+    if(null !== lastRef.current){
+      observer.observe(lastRef.current);
+      return () => observer.disconnect();
+    }
+    
+  }, [pageCurrent]);
+
 
   return (
     <Container>
@@ -48,7 +81,20 @@ const Main: React.FC = () => {
           </form>
         </Wrapper>
       </Welcome>
-      <EmojiGroup emojis={emojiFilterSmileys} title="Smileys & Emotion"/>
+      {emojisList.map((item, index) => {
+        if (index <= pageCurrent) {
+          console.log(index);
+          return (
+            <EmojiGroup
+              key={index}
+              emojis={filterEmojisByGroup(emojiJson, item)}
+              title={item}
+            />
+          );
+        }
+      })}
+
+      <div ref={lastRef} />
     </Container>
   );
 };

@@ -12,11 +12,11 @@ interface interfaceEmojiGroup {
 }
 
 type typeEmojiGroup = {
-  emojis : Array<interfaceEmojiGroup>,
-  title: string
-}
+  emojis: Array<interfaceEmojiGroup>;
+  title: string;
+};
 
-const EmojiGroup: React.FC<typeEmojiGroup> = ({emojis,title}) => {
+const EmojiGroup: React.FC<typeEmojiGroup> = ({ emojis, title }) => {
   return (
     <Container>
       <div className="header">
@@ -28,9 +28,7 @@ const EmojiGroup: React.FC<typeEmojiGroup> = ({emojis,title}) => {
         {emojis.map((item, index) => {
           if (index < 24) {
             return (
-              <div
-                className="emoji"
-              >
+              <div key={index} className="emoji">
                 {item.char}
               </div>
             );
