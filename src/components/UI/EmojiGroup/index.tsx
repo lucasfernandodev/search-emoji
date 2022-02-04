@@ -16,43 +16,62 @@ interface interfaceEmojiGroup {
 type typeEmojiGroup = {
   emojis: Array<interfaceEmojiGroup>;
   title: string;
-  index?: boolean
+  index?: boolean;
 };
 
 const EmojiGroup: React.FC<typeEmojiGroup> = ({ emojis, title, index }) => {
-
   const [showAlert, setShowAlert] = useState<boolean>(false);
   const [emojy, setEmojy] = useState<string>('');
-
-  function alertCopyEmoji(emoji : string){
+  const [expand, setExpand] = useState<boolean>(false);
+  function alertCopyEmoji(emoji: string) {
     copyEmoji(emoji);
     setShowAlert(true);
-    setEmojy(emoji)
+    setEmojy(emoji);
 
     setTimeout(() => {
-      setShowAlert(false)
-    }, 3000)
+      setShowAlert(false);
+    }, 3000);
   }
 
   return (
     <Container>
       <div className="header">
         <h2 className="title">{title}</h2>
-        <button>Expandir</button>
+        <button
+          onClick={() => (expand === true ? setExpand(false) : setExpand(true))}
+        >
+          Expandir
+        </button>
       </div>
 
       <div className="container">
         {emojis.map((item, index) => {
-          if (index < 24) {
+          if (expand !== true) {
+            if (index < 24) {
+              return (
+                <div
+                  key={index}
+                  className="emoji"
+                  onClick={() => alertCopyEmoji(item.char)}
+                >
+                  {item.char}
+                </div>
+              );
+            }
+          } else {
             return (
-              <div key={index} className="emoji" onClick={() => alertCopyEmoji(item.char)}>
+              <div
+                key={index}
+                className="emoji"
+                onClick={() => alertCopyEmoji(item.char)}
+              >
                 {item.char}
               </div>
             );
           }
         })}
       </div>
-      <Alert state={true} show={showAlert} emoji={emojy}/>
+      <Alert state={true} show={showAlert} emoji={emojy} />
     </Container>
   );
 };
