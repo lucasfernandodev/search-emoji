@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Container } from './styles';
 import copyEmoji from '../../lib/copyEmoji';
@@ -17,12 +17,27 @@ type typeEmojiGroup = {
   emojis: Array<interfaceEmojiGroup>;
   title: string;
   index?: boolean;
+  expandShow?: boolean;
+  all?: boolean
 };
 
-const EmojiGroup: React.FC<typeEmojiGroup> = ({ emojis, title, index }) => {
+const EmojiGroup: React.FC<typeEmojiGroup> = ({
+  emojis,
+  title,
+  index,
+  expandShow,
+  all
+}) => {
   const [showAlert, setShowAlert] = useState<boolean>(false);
   const [emojy, setEmojy] = useState<string>('');
   const [expand, setExpand] = useState<boolean>(false);
+
+  useEffect(() => {
+    if(all === true){
+      setExpand(true)
+    }
+  },[])
+
   function alertCopyEmoji(emoji: string) {
     copyEmoji(emoji);
     setShowAlert(true);
@@ -37,11 +52,15 @@ const EmojiGroup: React.FC<typeEmojiGroup> = ({ emojis, title, index }) => {
     <Container>
       <div className="header">
         <h2 className="title">{title}</h2>
-        <button
-          onClick={() => (expand === true ? setExpand(false) : setExpand(true))}
-        >
-          Expandir
-        </button>
+        {expandShow !== false && (
+          <button
+            onClick={() =>
+              expand === true ? setExpand(false) : setExpand(true)
+            }
+          >
+            Expandir
+          </button>
+        )}
       </div>
 
       <div className="container">
@@ -49,11 +68,7 @@ const EmojiGroup: React.FC<typeEmojiGroup> = ({ emojis, title, index }) => {
           if (expand !== true) {
             if (index < 24) {
               return (
-                <div
-                  key={index}
-                  className="emoji"
-                  onClick={() => alertCopyEmoji(item.char)}
-                >
+                <div key={index} className="emoji" onClick={() => alertCopyEmoji(item.char)}>
                   {item.char}
                 </div>
               );

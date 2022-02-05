@@ -70,4 +70,52 @@ export const Wrapper = styled.div`
     left: 16px;
     transform: translateY(-50%);
   }
+  .category{
+    position: absolute;
+    top: 50%;
+    right: 16px;
+    transform: translateY(-50%);
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+
+  .category label{
+    font-size: 18px;
+    font-family: 'Lora', serif;
+  }
+
+  .category span{
+    margin-left: 8px;
+    font-weight: 500;
+  }
+
+  .category select{
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: none;
+    border: none;
+    outline: none;
+    font-size: 18px;
+    font-family: 'Lora', serif;
+    font-weight: 500;
+    width: 100%;
+    cursor: pointer;
+    color: transparent;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    top: 0;
+    height: 100%;
+  }
+
+  .category select option{
+    font-size: 16px;
+    font-family: 'Lora', serif;
+    width: fit-content;
+    color: #242424;
+    min-height: 46px;
+  }
 `;
