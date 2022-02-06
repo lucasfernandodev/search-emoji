@@ -2,14 +2,19 @@ import React from 'react';
 
 import { Container } from './styles';
 import logo from '/imagens/logo.svg';
-const Header: React.FC = () => {
+
+interface InterfaceHeader  {
+  toggleLanguage : () => void,
+  language: string
+}
+const Header: React.FC<InterfaceHeader> = ({toggleLanguage, language} ) => {
   return (
   <Container>
     <div className="brand">
       <img src={logo} alt="Search emoji logo" />
     </div>
     <div className="language">
-      <button>PT-BR</button>
+      <button onClick={toggleLanguage}>{language}</button>
     </div>
   </Container>
   );

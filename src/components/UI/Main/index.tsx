@@ -1,9 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { Key, useEffect, useRef, useState } from 'react';
 
 import { Container, Welcome, Wrapper } from './styles';
 import iconSearch from '/public/imagens/search.svg';
 
 import emojiJson from '../../../store/emoji.json';
+import emojiPT from '../../../store/emoji-pt.json';
+
 import EmojiGroup from '../EmojiGroup';
 
 import filterEmojisByGroup from '../../lib/filterEmojisByGroup';
@@ -18,33 +20,56 @@ interface interfaceEmojis {
   subgroup: string;
 }
 
-const Main: React.FC = () => {
+interface EmojisGroups {
+  [key: string]: Array<string>
+}
+
+interface interfaceMain {
+  language : string
+}
+
+const Main: React.FC<interfaceMain> = ({language}) => {
+  const pageLanguage = language;
+  
+  const [emojiObject, setEmojiObject] = useState([] as Array<interfaceEmojis>);
   const [pageCurrent, setPageCurrent] = useState<number>(0);
   const [searchShow, setSearchShow] = useState<boolean>(false);
   const [searchText, setSearchText] = useState<string>('');
-  const [searchResult, setSearchResult] = useState(
-    [] as Array<interfaceEmojis>,
-  );
+  const [searchResult, setSearchResult] = useState([] as Array<interfaceEmojis>);
   const [selectedValue, setSelectedValue] = useState<string>('All');
-  const emojisList = [
-    'Smileys & Emotion',
-    'Animals & Nature',
-    'People & Body',
-    'Food & Drink',
-    'Travel & Places',
-    'Symbols',
-    'Flags',
-  ];
+
+
+  const emojiGroups: EmojisGroups = {
+    EN: [
+      'Smileys & Emotion',
+      'Animals & Nature',
+      'People & Body',
+      'Food & Drink',
+      'Travel & Places',
+      'Symbols',
+      'Flags',
+    ],
+    PT: [
+      'Sorrisos e Emoções',
+      'Animais e Natureza',
+      "Pessoas & corpo",
+      'Comida e bebida',
+      'Viagens e lugares',
+      'Símbolos',
+      'Bandeira',
+    ],
+  }
 
   const lastRef = useRef<HTMLDivElement>(null);
   const SelectRef = useRef<HTMLSelectElement>(null);
   const categoryValue = useRef<HTMLSpanElement>(null);
 
+
   useEffect(() => {
     console.log('log useEffect, pageCurrent: ', pageCurrent);
     const observer = new IntersectionObserver(entries => {
       if (entries.some(entry => entry.isIntersecting)) {
-        if (pageCurrent <= emojisList.length) {
+        if (pageCurrent <= emojiGroups[pageLanguage].length) {
           setPageCurrent(pageCurrent + 1);
         }
       }
@@ -61,6 +86,10 @@ const Main: React.FC = () => {
     handlerSearch(searchText, selectedValue)
   }, [searchText, selectedValue])
 
+  useEffect(()=> {
+    if(pageLanguage === 'PT') return setEmojiObject(emojiPT);
+    if(pageLanguage === 'EN') return setEmojiObject(emojiJson)
+  }, [pageLanguage])
 
   function handlerSearch(inputText: string, inputSelect: string) {
     
@@ -69,7 +98,7 @@ const Main: React.FC = () => {
 
       if(inputSelect.toLowerCase() != 'all'){
         setSearchShow(true);
-        const groupEmoji = filterEmojisByGroup(emojiJson, inputSelect);
+        const groupEmoji = filterEmojisByGroup(emojiObject, inputSelect);
         setSearchText(inputText);
         const filtered = searchEmojiByText(groupEmoji, inputText);
         setSearchResult(filtered);
@@ -79,7 +108,7 @@ const Main: React.FC = () => {
         setSearchShow(true);
         setSearchText(inputText);
   
-        const filtered = searchEmojiByText(emojiJson, inputText);
+        const filtered = searchEmojiByText(emojiObject, inputText);
         setSearchResult(filtered);
       }
       
@@ -126,7 +155,7 @@ const Main: React.FC = () => {
                   <option value="all" defaultValue="All">
                     All
                   </option>
-                  {emojisList.map((item, index) => {
+                  {emojiGroups[pageLanguage].map((item, index) => {
                     return (
                       <option key={index} value={item}>
                         {item}
@@ -141,9 +170,9 @@ const Main: React.FC = () => {
       </Welcome>
 
       {searchShow === false ? (
-        emojisList.map((item, index) => {
+        emojiGroups[pageLanguage].map((item, index) => {
           if (index <= pageCurrent) {
-            const emojis = filterEmojisByGroup(emojiJson, item);
+            const emojis = filterEmojisByGroup(emojiObject, item);
             return (
               <EmojiGroup
                 index={index === 0 && true}
