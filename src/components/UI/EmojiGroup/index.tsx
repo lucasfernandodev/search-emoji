@@ -70,27 +70,18 @@ const EmojiGroup: React.FC<typeEmojiGroup> = ({
           if (expand !== true) {
             if (index < 24) {
               return (
-                <div
-                  key={index}
-                  className="emoji"
-                  onClick={() => alertCopyEmoji(item.char)}
-                >
+                <div key={index} aria-label={item.name} className="emoji" onClick={() => alertCopyEmoji(item.char)} >
                   {item.char}
                 </div>
               );
             }
           } else {
             return (
-              <div
-                key={index}
-                className="emoji"
-                onClick={() => alertCopyEmoji(item.char)}
-              >
+              <div key={index} aria-label={item.name} className="emoji" onClick={() => alertCopyEmoji(item.char)} >
                 {item.char}
               </div>
             );
-          }
-        })}
+          }})}
       </div>
       <Alert lang={lang} state={true} show={showAlert} emoji={emojy} />
     </Container>

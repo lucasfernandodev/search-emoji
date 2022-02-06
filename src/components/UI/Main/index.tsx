@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { Container, Welcome, Wrapper } from './styles';
 import iconSearch from '/public/imagens/search.svg';
@@ -29,7 +29,6 @@ interface interfaceMain {
 }
 
 const Main: React.FC<interfaceMain> = ({ lang }) => {
-
   const [emojiObject, setEmojiObject] = useState([] as Array<interfaceEmojis>);
   const [pageCurrent, setPageCurrent] = useState<number>(0);
   const [searchShow, setSearchShow] = useState<boolean>(false);
@@ -81,25 +80,19 @@ const Main: React.FC<interfaceMain> = ({ lang }) => {
   }, [pageCurrent]);
 
   useEffect(() => {
- 
     handlerSearch(searchText, selectedValue);
   }, [searchText, selectedValue]);
 
   useEffect(() => {
-
     setSelectedValue(lang === 'PT' ? 'Todos' : 'All');
     if (lang === 'PT') return setEmojiObject(emojiPT);
     if (lang === 'EN') return setEmojiObject(emojiJson);
   }, [lang]);
 
-
   function handlerSearch(inputText: string, inputSelect: string) {
-    console.log(inputText, inputSelect)
-
-    let filter = lang === "PT" ? 'todos' : "all";
+    let filter = lang === 'PT' ? 'todos' : 'all';
 
     if (inputText.length > 2) {
-
       if (inputSelect.toLowerCase() !== filter.toLowerCase()) {
         setSearchShow(true);
         const groupEmoji = filterEmojisByGroup(emojiObject, inputSelect);
@@ -122,9 +115,7 @@ const Main: React.FC<interfaceMain> = ({ lang }) => {
     <Container>
       <Welcome>
         <Wrapper>
-          <h1>
-            {Text[lang].presentation}
-          </h1>
+          <h1>{Text[lang].presentation}</h1>
           <form
             className="search-emoji"
             onSubmit={event => {
@@ -154,15 +145,11 @@ const Main: React.FC<interfaceMain> = ({ lang }) => {
                   onChange={event => setSelectedValue(event.target.value)}
                 >
                   <option value="all" defaultValue="all">
-                    {lang === "PT" ?"Todos" : 'All'}
+                    {lang === 'PT' ? 'Todos' : 'All'}
                   </option>
-                  {emojiGroups[lang].map((item, index) => {
-                    return (
-                      <option key={index} value={item}>
-                        {item}
-                      </option>
-                    );
-                  })}
+                  {
+                  emojiGroups[lang].map((item, index) => {return <option key={index} value={item}>{item}</option>})
+                  }
                 </select>
               </div>
             </div>
