@@ -1,4 +1,4 @@
-import React, { Key, useEffect, useRef, useState } from 'react';
+import React, {useEffect, useRef, useState } from 'react';
 
 import { Container, Welcome, Wrapper } from './styles';
 import iconSearch from '/public/imagens/search.svg';
@@ -7,7 +7,7 @@ import emojiJson from '../../../store/emoji.json';
 import emojiPT from '../../../store/emoji-pt.json';
 
 import EmojiGroup from '../EmojiGroup';
-
+import Text from '../../../store/Text';
 import filterEmojisByGroup from '../../lib/filterEmojisByGroup';
 import searchEmojiByText from '../../lib/searchEmojiByText';
 
@@ -25,11 +25,10 @@ interface EmojisGroups {
 }
 
 interface interfaceMain {
-  language: string;
+  lang: string;
 }
 
-const Main: React.FC<interfaceMain> = ({ language }) => {
-  const pageLanguage = language;
+const Main: React.FC<interfaceMain> = ({ lang }) => {
 
   const [emojiObject, setEmojiObject] = useState([] as Array<interfaceEmojis>);
   const [pageCurrent, setPageCurrent] = useState<number>(0);
@@ -69,7 +68,7 @@ const Main: React.FC<interfaceMain> = ({ language }) => {
     console.log('log useEffect, pageCurrent: ', pageCurrent);
     const observer = new IntersectionObserver(entries => {
       if (entries.some(entry => entry.isIntersecting)) {
-        if (pageCurrent <= emojiGroups[pageLanguage].length) {
+        if (pageCurrent <= emojiGroups[lang].length) {
           setPageCurrent(pageCurrent + 1);
         }
       }
@@ -87,10 +86,10 @@ const Main: React.FC<interfaceMain> = ({ language }) => {
 
   useEffect(() => {
 
-    setSelectedValue(pageLanguage === 'PT' ? 'Todos' : 'All');
-    if (pageLanguage === 'PT') return setEmojiObject(emojiPT);
-    if (pageLanguage === 'EN') return setEmojiObject(emojiJson);
-  }, [pageLanguage]);
+    setSelectedValue(lang === 'PT' ? 'Todos' : 'All');
+    if (lang === 'PT') return setEmojiObject(emojiPT);
+    if (lang === 'EN') return setEmojiObject(emojiJson);
+  }, [lang]);
 
 
   function handlerSearch(inputText: string, inputSelect: string) {
@@ -115,15 +114,13 @@ const Main: React.FC<interfaceMain> = ({ language }) => {
       setSearchShow(false);
     }
   }
-
+  console.log(Text[lang])
   return (
     <Container>
       <Welcome>
         <Wrapper>
           <h1>
-            {pageLanguage === 'PT'
-              ? 'Encontre e copie seus emojis favoritos de forma simples e rápida!'
-              : 'Find and copy your favorite emojis simply and quickly!'}
+            {Text[lang].presentation}
           </h1>
           <form
             className="search-emoji"
@@ -135,14 +132,14 @@ const Main: React.FC<interfaceMain> = ({ language }) => {
               <img src={iconSearch} alt="search" />
               <input
                 type="text"
-                placeholder="Pesquise um emoji"
+                placeholder={Text[lang].inputPlaceholder}
                 onChange={event => setSearchText(event.target.value)}
               />
 
               <div className="category">
                 <div className="placholder">
                   <label htmlFor="category">
-                    {pageLanguage === 'PT' ? 'Categoria:' : 'Category:'}
+                    {Text[lang].categoryPlaceholder}:
                   </label>
                   <span ref={categoryValue}>{selectedValue}</span>
                 </div>
@@ -156,7 +153,7 @@ const Main: React.FC<interfaceMain> = ({ language }) => {
                   <option value={selectedValue} defaultValue={selectedValue}>
                     {selectedValue}
                   </option>
-                  {emojiGroups[pageLanguage].map((item, index) => {
+                  {emojiGroups[lang].map((item, index) => {
                     return (
                       <option key={index} value={item}>
                         {item}
@@ -171,7 +168,7 @@ const Main: React.FC<interfaceMain> = ({ language }) => {
       </Welcome>
 
       {searchShow === false ? (
-        emojiGroups[pageLanguage].map((item, index) => {
+        emojiGroups[lang].map((item, index) => {
           if (index <= pageCurrent) {
             const emojis = filterEmojisByGroup(emojiObject, item);
             return (
@@ -180,7 +177,7 @@ const Main: React.FC<interfaceMain> = ({ language }) => {
                 key={index}
                 emojis={emojis}
                 title={item}
-                lang={language}
+                lang={lang}
               />
             );
           }
@@ -192,7 +189,7 @@ const Main: React.FC<interfaceMain> = ({ language }) => {
           title={searchText}
           expandShow={false}
           all={true}
-          lang={language}
+          lang={lang}
         />
       )}
 

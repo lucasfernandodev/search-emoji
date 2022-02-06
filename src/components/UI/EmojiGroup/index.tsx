@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Container } from './styles';
 import copyEmoji from '../../lib/copyEmoji';
 import Alert from '../Alert';
-
+import Text from '../../../store/Text';
 interface interfaceEmojiGroup {
   codes: string;
   char: any;
@@ -60,7 +60,7 @@ const EmojiGroup: React.FC<typeEmojiGroup> = ({
               expand === true ? setExpand(false) : setExpand(true)
             }
           >
-            {lang === 'PT' ? 'Expandir' : 'Expand'}
+            {Text[lang].buttonMoreEmoji}
           </button>
         )}
       </div>
