@@ -18,7 +18,8 @@ type typeEmojiGroup = {
   title: string;
   index?: boolean;
   expandShow?: boolean;
-  all?: boolean
+  all?: boolean;
+  lang: string;
 };
 
 const EmojiGroup: React.FC<typeEmojiGroup> = ({
@@ -26,17 +27,18 @@ const EmojiGroup: React.FC<typeEmojiGroup> = ({
   title,
   index,
   expandShow,
-  all
+  all,
+  lang,
 }) => {
   const [showAlert, setShowAlert] = useState<boolean>(false);
   const [emojy, setEmojy] = useState<string>('');
   const [expand, setExpand] = useState<boolean>(false);
 
   useEffect(() => {
-    if(all === true){
-      setExpand(true)
+    if (all === true) {
+      setExpand(true);
     }
-  },[])
+  }, []);
 
   function alertCopyEmoji(emoji: string) {
     copyEmoji(emoji);
@@ -58,7 +60,7 @@ const EmojiGroup: React.FC<typeEmojiGroup> = ({
               expand === true ? setExpand(false) : setExpand(true)
             }
           >
-            Expandir
+            {lang === 'PT' ? 'Expandir' : 'Expand'}
           </button>
         )}
       </div>
@@ -68,7 +70,11 @@ const EmojiGroup: React.FC<typeEmojiGroup> = ({
           if (expand !== true) {
             if (index < 24) {
               return (
-                <div key={index} className="emoji" onClick={() => alertCopyEmoji(item.char)}>
+                <div
+                  key={index}
+                  className="emoji"
+                  onClick={() => alertCopyEmoji(item.char)}
+                >
                   {item.char}
                 </div>
               );
@@ -86,7 +92,7 @@ const EmojiGroup: React.FC<typeEmojiGroup> = ({
           }
         })}
       </div>
-      <Alert state={true} show={showAlert} emoji={emojy} />
+      <Alert lang={lang} state={true} show={showAlert} emoji={emojy} />
     </Container>
   );
 };

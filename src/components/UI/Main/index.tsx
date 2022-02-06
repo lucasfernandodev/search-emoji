@@ -21,23 +21,24 @@ interface interfaceEmojis {
 }
 
 interface EmojisGroups {
-  [key: string]: Array<string>
+  [key: string]: Array<string>;
 }
 
 interface interfaceMain {
-  language : string
+  language: string;
 }
 
-const Main: React.FC<interfaceMain> = ({language}) => {
+const Main: React.FC<interfaceMain> = ({ language }) => {
   const pageLanguage = language;
-  
+
   const [emojiObject, setEmojiObject] = useState([] as Array<interfaceEmojis>);
   const [pageCurrent, setPageCurrent] = useState<number>(0);
   const [searchShow, setSearchShow] = useState<boolean>(false);
   const [searchText, setSearchText] = useState<string>('');
-  const [searchResult, setSearchResult] = useState([] as Array<interfaceEmojis>);
-  const [selectedValue, setSelectedValue] = useState<string>('All');
-
+  const [searchResult, setSearchResult] = useState(
+    [] as Array<interfaceEmojis>,
+  );
+  const [selectedValue, setSelectedValue] = useState<string>('Todos');
 
   const emojiGroups: EmojisGroups = {
     EN: [
@@ -52,18 +53,17 @@ const Main: React.FC<interfaceMain> = ({language}) => {
     PT: [
       'Sorrisos e Emoções',
       'Animais e Natureza',
-      "Pessoas & corpo",
+      'Pessoas & corpo',
       'Comida e bebida',
       'Viagens e lugares',
       'Símbolos',
       'Bandeira',
     ],
-  }
+  };
 
   const lastRef = useRef<HTMLDivElement>(null);
   const SelectRef = useRef<HTMLSelectElement>(null);
   const categoryValue = useRef<HTMLSpanElement>(null);
-
 
   useEffect(() => {
     console.log('log useEffect, pageCurrent: ', pageCurrent);
@@ -81,50 +81,49 @@ const Main: React.FC<interfaceMain> = ({language}) => {
     }
   }, [pageCurrent]);
 
+  useEffect(() => {
+    handlerSearch(searchText, selectedValue);
+  }, [searchText, selectedValue]);
 
   useEffect(() => {
-    handlerSearch(searchText, selectedValue)
-  }, [searchText, selectedValue])
 
-  useEffect(()=> {
-    if(pageLanguage === 'PT') return setEmojiObject(emojiPT);
-    if(pageLanguage === 'EN') return setEmojiObject(emojiJson)
-  }, [pageLanguage])
+    setSelectedValue(pageLanguage === 'PT' ? 'Todos' : 'All');
+    if (pageLanguage === 'PT') return setEmojiObject(emojiPT);
+    if (pageLanguage === 'EN') return setEmojiObject(emojiJson);
+  }, [pageLanguage]);
+
 
   function handlerSearch(inputText: string, inputSelect: string) {
-    
-    console.log(inputText,inputSelect )
-    if (inputText.length > 2) {
 
-      if(inputSelect.toLowerCase() != 'all'){
+    const filter = inputSelect.toLowerCase() === 'Todos' ? "all" : inputSelect.toLowerCase();
+
+    if (inputText.length > 2) {
+      if (inputSelect.toLowerCase() != filter) {
         setSearchShow(true);
         const groupEmoji = filterEmojisByGroup(emojiObject, inputSelect);
         setSearchText(inputText);
         const filtered = searchEmojiByText(groupEmoji, inputText);
         setSearchResult(filtered);
-
-      }else{
-
+      } else {
         setSearchShow(true);
         setSearchText(inputText);
-  
+
         const filtered = searchEmojiByText(emojiObject, inputText);
         setSearchResult(filtered);
       }
-      
-
     } else {
       setSearchShow(false);
     }
   }
- 
 
   return (
     <Container>
       <Welcome>
         <Wrapper>
           <h1>
-            Econtre e copie seus emojis favoritos de forma simples e rápida!
+            {pageLanguage === 'PT'
+              ? 'Encontre e copie seus emojis favoritos de forma simples e rápida!'
+              : 'Find and copy your favorite emojis simply and quickly!'}
           </h1>
           <form
             className="search-emoji"
@@ -142,7 +141,9 @@ const Main: React.FC<interfaceMain> = ({language}) => {
 
               <div className="category">
                 <div className="placholder">
-                  <label htmlFor="category">Categoria:</label>
+                  <label htmlFor="category">
+                    {pageLanguage === 'PT' ? 'Categoria:' : 'Category:'}
+                  </label>
                   <span ref={categoryValue}>{selectedValue}</span>
                 </div>
 
@@ -152,8 +153,8 @@ const Main: React.FC<interfaceMain> = ({language}) => {
                   ref={SelectRef}
                   onChange={event => setSelectedValue(event.target.value)}
                 >
-                  <option value="all" defaultValue="All">
-                    All
+                  <option value={selectedValue} defaultValue={selectedValue}>
+                    {selectedValue}
                   </option>
                   {emojiGroups[pageLanguage].map((item, index) => {
                     return (
@@ -179,6 +180,7 @@ const Main: React.FC<interfaceMain> = ({language}) => {
                 key={index}
                 emojis={emojis}
                 title={item}
+                lang={language}
               />
             );
           }
@@ -190,6 +192,7 @@ const Main: React.FC<interfaceMain> = ({language}) => {
           title={searchText}
           expandShow={false}
           all={true}
+          lang={language}
         />
       )}
 
