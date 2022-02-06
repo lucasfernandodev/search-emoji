@@ -5,16 +5,16 @@ import logo from '/imagens/logo.svg';
 
 interface InterfaceHeader  {
   toggleLanguage : () => void,
-  language: string
+  lang: string
 }
-const Header: React.FC<InterfaceHeader> = ({toggleLanguage, language} ) => {
+const Header: React.FC<InterfaceHeader> = ({toggleLanguage, lang} ) => {
   return (
   <Container>
     <div className="brand">
       <img src={logo} alt="Search emoji logo" />
     </div>
     <div className="language">
-      <button onClick={toggleLanguage}>{language}</button>
+      <button onClick={toggleLanguage}>{lang}</button>
     </div>
   </Container>
   );

@@ -8,17 +8,24 @@ export const Container = styled.section`
   flex-wrap: wrap;
   gap: 45px;
 
-  .header{
+  .header {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-between;
 
-    h2{
+    h2 {
       font-size: 32px;
     }
 
-    button{
+    @media (max-width: 740px) {
+      h2 {
+        font-size: 26px;
+        text-align: center;
+      }
+    }
+
+    button {
       background: none;
       border: none;
       outline: none;
@@ -27,20 +34,20 @@ export const Container = styled.section`
       cursor: pointer;
       transition: 350ms linear;
 
-      &:hover{
+      &:hover {
         color: #383838;
       }
     }
   }
 
-  .container{
+  .container {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     gap: 32px;
     justify-content: center;
 
-    .emoji{
+    .emoji {
       font-size: 64px;
       width: 145px;
       height: 145px;
@@ -51,10 +58,24 @@ export const Container = styled.section`
       transition: 350ms linear;
       cursor: pointer;
 
-      &:hover{
+      &:hover {
         position: relative;
         transform: translateY(-10px);
       }
+    }
+  }
+
+  @media (max-width: 740px) {
+    padding: 0 24px;
+    padding-top: 45px;
+    .container {
+      gap: 16px;
+    }
+
+    .container .emoji {
+      width: 120px;
+      height: 120px;
+      font-size: 48px;
     }
   }
 `;

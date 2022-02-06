@@ -81,6 +81,7 @@ const Main: React.FC<interfaceMain> = ({ lang }) => {
   }, [pageCurrent]);
 
   useEffect(() => {
+ 
     handlerSearch(searchText, selectedValue);
   }, [searchText, selectedValue]);
 
@@ -93,11 +94,13 @@ const Main: React.FC<interfaceMain> = ({ lang }) => {
 
 
   function handlerSearch(inputText: string, inputSelect: string) {
+    console.log(inputText, inputSelect)
 
-    const filter = inputSelect.toLowerCase() === 'Todos' ? "all" : inputSelect.toLowerCase();
+    let filter = lang === "PT" ? 'todos' : "all";
 
     if (inputText.length > 2) {
-      if (inputSelect.toLowerCase() != filter) {
+
+      if (inputSelect.toLowerCase() !== filter.toLowerCase()) {
         setSearchShow(true);
         const groupEmoji = filterEmojisByGroup(emojiObject, inputSelect);
         setSearchText(inputText);
@@ -114,7 +117,7 @@ const Main: React.FC<interfaceMain> = ({ lang }) => {
       setSearchShow(false);
     }
   }
-  console.log(Text[lang])
+
   return (
     <Container>
       <Welcome>
@@ -150,8 +153,8 @@ const Main: React.FC<interfaceMain> = ({ lang }) => {
                   ref={SelectRef}
                   onChange={event => setSelectedValue(event.target.value)}
                 >
-                  <option value={selectedValue} defaultValue={selectedValue}>
-                    {selectedValue}
+                  <option value="all" defaultValue="all">
+                    {lang === "PT" ?"Todos" : 'All'}
                   </option>
                   {emojiGroups[lang].map((item, index) => {
                     return (

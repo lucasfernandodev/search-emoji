@@ -12,7 +12,7 @@ function App() {
   }
   return (
     <>
-      <Header toggleLanguage={toggleLanguage} language={pageLanguage}/>
+      <Header toggleLanguage={toggleLanguage} lang={pageLanguage}/>
       <Main lang={pageLanguage} />
       <Footer />
     </>

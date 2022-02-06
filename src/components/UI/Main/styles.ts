@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const Container = styled.main`
   min-height: 100vh;
 
-  & section:last-child{
+  & section:last-child {
     margin-bottom: 90px;
   }
 `;
@@ -28,6 +28,21 @@ export const Wrapper = styled.div`
   h1 {
     font-size: 44px;
     text-align: center;
+  }
+
+  @media (max-width: 740px) {
+    width: calc(100vw - 24px);
+    h1 {
+      font-size: 38px;
+      text-align: center;
+    }
+  }
+
+  @media (max-width: 450px) {
+    h1 {
+      font-size: 32px;
+      text-align: center;
+    }
   }
 
   .search-emoji {
@@ -64,13 +79,14 @@ export const Wrapper = styled.div`
     font-weight: 500;
   }
 
-  .search-emoji .form-group img{
+  .search-emoji .form-group img {
     position: absolute;
     top: 50%;
     left: 16px;
     transform: translateY(-50%);
   }
-  .category{
+
+  .category {
     position: absolute;
     top: 50%;
     right: 16px;
@@ -80,17 +96,39 @@ export const Wrapper = styled.div`
     align-items: center;
   }
 
-  .category label{
+
+
+  .category label {
     font-size: 18px;
     font-family: 'Lora', serif;
   }
 
-  .category span{
+
+
+  .category span {
     margin-left: 8px;
     font-weight: 500;
   }
 
-  .category select{
+  @media (max-width: 550px) {
+    .search-emoji .form-group input {
+      font-size: 16px;
+      padding-left: 44px;
+    }
+
+    .category {
+      right: 4px;
+    }
+    .category label{
+      font-size: 16px;
+    }
+    .category span {
+      margin-left: 2px;
+      font-size: 14px;
+    }
+  }
+
+  .category select {
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -111,7 +149,7 @@ export const Wrapper = styled.div`
     height: 100%;
   }
 
-  .category select option{
+  .category select option {
     font-size: 16px;
     font-family: 'Lora', serif;
     width: fit-content;
