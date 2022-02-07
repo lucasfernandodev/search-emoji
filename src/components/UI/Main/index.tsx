@@ -176,7 +176,7 @@ const Main: React.FC<interfaceMain> = ({ lang }) => {
         <EmojiGroup
           index={true}
           emojis={searchResult}
-          title={searchText}
+          title={ lang === 'PT' ? `O resultado da busca por "${searchText}" é` : `Search results for "${searchText}"`}
           expandShow={false}
           all={true}
           lang={lang}
