@@ -7,3 +7,7 @@
 Como meta para 2022 desejo melhorar minha proficiência com <b>Reactjs</b> e <b>Typescript</b>. Esse projeto é um desafio que me ajuda e  melhorar de forma pratica.
 
 O Search emoji é um site para procurar e copiar emojis de forma simples e rápida.
+
+<p align="center">
+  <img src="./public/imagens/ui.png" alt="Peint da tela"/>
+</p>
